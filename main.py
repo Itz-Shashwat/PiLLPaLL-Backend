@@ -43,7 +43,7 @@ class data:
 
 app = Flask(__name__)
 
-openai.api_key = "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"
+openai.api_key = openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # store chat messages
 messages = [{"role": "system", "content": "You are a pharmacist"}]
