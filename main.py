@@ -61,7 +61,7 @@ def load_data_from_file():
     else:
         return data()  
 
-# Configure logging
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -74,13 +74,13 @@ def chat():
     database = load_data_from_file()
     user_message = request.json.get('message')
     if user_message:
-        # Check if the message already exists in the data structure
+
         current = database.head
         while current:
             if current.medi == user_message:
                 return jsonify({"reply": current.compo})
             current = current.next
-        # If the message is not found in the data structure, proceed with GPT call
+        # If message  not found in the data structure- GPT call
         user_message1 = "please provide final composition of when these two tablets are taken together:" + user_message + 'Note: just give the names of final active components nothing else!'
         messages.append({"role": "user", "content": user_message1})
         try:
@@ -102,7 +102,7 @@ def chat():
     else:
         return jsonify({"error": "No message provided."})
 
-# Integrate model training route
+
 @app.route('/train_model', methods=['POST'])
 def train_model():
     database = load_data_from_file()
@@ -117,22 +117,22 @@ def train_model():
     except ValueError as e:
         return jsonify({"error": str(e)})
 
-    # Define a pipeline for text classification
+
     pipeline = Pipeline([
-        ('tfidf', TfidfVectorizer()),  # Convert text to numerical features using TF-IDF
-        ('clf', LogisticRegression()),  # Train a Logistic Regression classifier
+        ('tfidf', TfidfVectorizer()),  # Convert text to numerical  using TF-IDF
+        ('clf', LogisticRegression()),  # Train Logistic Regression 
     ])
 
-    # Train the model
+
     pipeline.fit(X_train, y_train)
 
-    # Evaluate the model
+
     y_pred = pipeline.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     logger.info("Accuracy: %f", accuracy)
     logger.info("Classification Report:\n%s", classification_report(y_test, y_pred))
 
-    # Save the trained model
+    # Save trained model
     with open("model.pkl", "wb") as file:
         pickle.dump(pipeline, file)
 
