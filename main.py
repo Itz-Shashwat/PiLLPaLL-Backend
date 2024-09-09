@@ -81,7 +81,7 @@ def chat():
                 return jsonify({"reply": current.compo})
             current = current.next
         # If message  not found in the data structure- GPT call
-        user_message1 = "please provide final composition of when these two tablets are taken together:" + user_message + 'Note: just give the names of final active components nothing else!'
+        user_message1 = "please provide final composition of when these two tablets are taken together:" + user_message + 'Note: just give the names of final active components nothing else!'+ 'And tell me what will be there side effect of using these medecine together having the health condition i meantioned before '
         messages.append({"role": "user", "content": user_message1})
         try:
             response = openai.ChatCompletion.create(
